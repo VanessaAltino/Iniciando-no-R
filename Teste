@@ -1,0 +1,946 @@
+# Data: 20/06/2021
+# ANÁLISE DE DADOS EM AMBIENTE R
+# Endereço: https://www.escolavirtual.gov.br/
+
+###############################################################################
+# MÓDULO 1: Introdução à Análise de Dados
+# UNIDADE 1 - Análise de Dados no Setor Público 
+# Objetivo: Reconhecer os principais conceitos de data science, linguagem R e 
+# machine learning (inteligência artificial)
+
+
+# UNIDADE 2 - Conceito relacionados a Análise de Dados
+# Definindo Big Data - pode ser caracterizado por 4 pilares: volume, variedade,
+# velocidade, veracidade
+# Big Data se refere a grande quantidade de dados que excede a capacidade de 
+# processamento de um banco de dados normal.
+
+# Tecnologia desenvolvida para trabalhar com os Big Data = Hadoop
+# Apache Hadoop - framework open source (estrutura de código aberto)
+
+# O que são dados estruturados e Não-estruturados
+# Não-estruturados = textos, arquivos, documentos, imagens, vídeos, som, rede 
+# sociais, dados que não estão na web (80 - 90% dos dados do mundo).
+
+# O que é Data Science?
+# Extrair conhecimento por meio de dados para se tomar melhores decisões, 
+# realizar previsões e entender o passado.
+
+# Estatística - desenve e aplica métodos para coletar, analisar e interpretar dados.
+# Matemática - possui deversas técnicas como algébrica linear e calculo, usado 
+# na análise de dados para a criação de algorítimos;
+# Área específica de conhecimento - finanças, administração, agronomia, mídia so-
+# cial, ciência, governo.
+# Machine learning - dar aos computadores a habilidade de aprender sem serem pro-
+# gramados explicitamente.
+
+
+#Machine learning
+# É um subconjunto da inteligência artificial 
+
+# Tipos de aprendizagem de máquinas - supervisionada, não-supervisionada,
+# aprendizagem por reforço
+
+# O processo do Data Science: definição do problema, preparação dos dados,
+# análise exploratória dos dados, construção do modelo preditivo, visualização
+# dos resultados
+
+# 2.8 Linguagem R - linguagem de programação usada para análise estatística e
+# produção de gráficos.
+
+
+###############################################################################
+# Data: 21/06/2-21 (19h50 até 21h32 = quase 2 horas de estudo
+
+# MÓDULO 2: FUNDAMENTOS DA LINGUAGEM R
+
+# Unidade 1: Preparação do ambiente de análise de dados
+# 1.1 Instalando o R
+# A linguagem R é uma linguagem de programação usada para análise estatística e 
+# produção de gráficos. Trata-se de um software gratuito e com código aberto e
+# com uma liguagem acessível. 
+# Baixar o R: link: https://cran.r-project.org/.
+
+# Unidade 2: Panorama da Linguagem R
+# Fezendo o 1º script
+mensagem <- 'Hello world!'
+print(mensagem)
+
+#Como pedir ajuda no R. Exempo abaixo:
+?print
+#ou
+help("print")
+
+#Instalando e carregando pacotes:
+#Instalando o pacote 'ggplot2' utilizado para construção de gráficos: 
+install.packages("ggplot2")
+
+#Carregando: 
+library (ggplot2)
+
+# 2.5 Estrutura dos dados
+# Vetor: armazena um conjunto de valores ordenados chamados de elementos. Todos 
+#       os elementos de um vetor devem ser o mesmo tipo.
+# Fator: Armazena valores categóricos (nominal ou ordinal)
+# Lista: é um tipo especial de vetor, porém é possível adicionar elementos de 
+#       tipos diferentes.
+# Data frame: É utilizado para organizar elementos em linhas e colunas, 
+#     semelhante a uma planilha ou base de dados. Além disso, pode ser formado 
+#     por listas ou vetores.
+# Matriz: Armazena dados tabulares, semelhante a Data frame, porém só aceita um
+# tipo de dado. Então, não aceita lista???
+
+################ Exemplo de vetor:
+cidade <- c('Brasília',
+            'São Paulo',
+            'Rio de Janeiro',
+            'Porto Alegra'
+            )
+
+cidade
+
+temperatura <- c(32,22,35,17)
+temperatura
+
+regiao <- c(1,2,3,4)
+regiao
+
+#Acessando o 1º elemento do vetor
+cidade[1]
+
+#Acessando o intervalo de elementos do vetor
+temperatura[1:3]
+
+#Copiando um vetor
+cidade2 <- cidade
+cidade2
+
+#Excluindo um elemento de um vetor
+temperatura[-2]
+
+#Alterando um vetor
+cidade2[3] <- 'Belo Horizonte'
+cidade2
+
+#Adicionando um novo elemento ao veto
+cidade2[5] <- 'Curitiba'
+cidade2
+
+#Deletando um vetor
+cidade2 <- NULL
+cidade2
+
+################### Fator: armazena variáveis CATEGÓRICAS
+?factor  #pedi um help para factor
+
+UF <- factor(c('DF', 'SP', 'RJ', 'RS'))
+UF
+
+#Construindo Fatores Ordenados
+grau.instrucao <- factor(c('Nível Médio',
+                           'Superior',
+                           'Nível Médio',
+                           'Fundamental'),
+                         levels = c('Fundamental',
+                                    'Nível Médio',
+                                    'Superior'),
+                         ordered = TRUE)
+
+grau.instrucao
+
+
+###################### Lista - é um vetor que aceita valores de diferentes 
+#tipos
+?list()
+
+pessoa <- list(sexo = 'M', cidade = 'Brasilia', idade = 20)
+pessoa
+
+#Acessando o primeiro item da lista 
+pessoa[1] #mostra o atributo e valor da posição da lista
+pessoa[[1]]  #mostra apenas o valor da posição da lista
+
+#Editanto o valor de um elemento da lista
+pessoa[['idade']] <- 22
+pessoa
+
+#Delentando elemento da lista
+pessoa[['idade']] <- NULL
+pessoa
+
+#Filtrando elementos da lista
+pessoa[c('cidade', 'idade')]
+
+#Fazendo uma lista com os vetores criados anteriormentes na sessão vetor
+cidades <- list(cidade = cidade, 
+                  temperatura = temperatura,
+                  regiao = regiao)
+cidades
+
+############# Data frame = = É uma estrutura que organiza elementos semelhante 
+# a uma planilha ou base de dados.
+
+#Criando um Data frame com vetores
+df <- data.frame(cidade,temperatura)
+df
+
+#Criando um data frame a partir da lista cidades
+df2 <- data.frame(cidades)
+df2
+
+##Alguns operção que podem ser realizadas no data frame
+#filtrando valores do data frame
+#recuperando (filtrando) o valor da linha 1, coluna 2
+df[1,2]
+
+# primeira linha e todas as colunas
+df[1,]
+
+# exibir todas as linhas da primeira coluna
+df[,1]
+
+
+
+
+##################### PAREI NO 6MIN 50 SEG ################
+#Continuação em 25/06/2021 (9h00 - 9h40) = 40 minutos de estudo
+
+## Filtrando intervalos de valores
+# Selecionando as 3 primeiras linhas da 1ª e última coluna
+df2 [c(1:3), c(1,3)]
+
+#Extraindo algumas informações do data frame
+
+# verificando o nome das colunas
+names(df)
+
+#verificando nº de linhas X colunas
+dim(df)
+
+# verificando os tipos dos objetos - informações detalhadas do data frame
+str(df)
+
+#Há duas maneiras de recupurar os dados de uma coluna:
+#Acessar uma coluna do data frame
+df$cidade
+#ou
+df['cidade']
+
+
+#################### Matrizes - assim como o data frame, 'matrix' tem a função 
+#de armazenar dados tabulados, no entando, só aceita um tipo de dados.
+?matrix() #help
+
+#exemplo usando uma sequência de parâmetros de 1 a 9 e o parâmetro "nrow = 3",
+#para distribuir valores em 3 colunas
+m <- matrix(seq(1:9), nrow = 3)
+m
+
+#outro exemplo especificando a quantidade de colunas
+#sendo que,
+## ncol = 5 para determinar que deverá ser exibida uma matrix de 5 colunas
+## byrow = TRUE indica que a matrix deverá ser preenchida por linhas 
+## 'dimnames' especifica o nome das linhas e colunas
+m2 <- matrix(seq(1:25), 
+             ncol = 5,   
+             byrow = TRUE,
+             dimnames = list(c(seq(1:5)),
+                             c('A', 'B', 'C', 'D', 'E')
+                              )
+              )
+ 
+m2        
+
+#filtrando os dados da matrix. Deve-se espevificar as linhas e colunas entre 
+#colchetes. 
+#No exemplo, vou filtrar as duas primeiras linhas das colunas "B" e "C"
+m2[c(1:2), c('B', 'C')]
+
+
+################################## PAREI 
+# continuando em 25/06 (14h12 - 16h40)
+
+# 2.6 Estruturas de repetição    
+
+# A função 'for' é utilizada para acessar cada elemento de uma sequência (vetor,
+#coluna da matriz ou data frame matriz)
+# for (valor in sequencia){
+#     código...
+#     }
+
+# Exemplo for
+for (variable in vector) {
+  
+}
+
+# Exemplo for: aqui se faz uma sequência de 12 elementos com a função "seq()" e
+#utilizamos a funão "print()" para imprimir os valores na aba console. O valor 
+#i representa o elemento.
+for (i in seq(12)) {
+  print(i)
+}
+
+
+# A função 'while' é utilizada para repetir uma operação por um determinado 
+#número de vezes.É necessário inserir como parâmetro uma condição, enquando
+#a condição for verdadeira a operação será executada.
+
+i <- 0
+while (i <= 10) {
+  #código
+  print(i)
+  i = i +1
+}
+
+
+# 2.7 Controle de fluxo
+# O programa linguagem R possui uma função que permite testar condições e 
+#e controlar o fluxo do script. 
+# Essa função permite executar parte de um código somente se alguma condição for
+#atendida, a fim de testas condições e controlar fluxo de script.
+
+#if(condicao) {
+# código...
+# }
+
+x = 10
+if(x>0) {
+  print('Número positivo')
+}
+
+#Outra função: "else if()" é usada para testar diversas condições
+#Exemplo: nota atribuida é igual a 4
+nota = 4
+if(nota>=7) {
+  print("Aprovado")
+} else if (nota > 5 && nota <7) {
+  print('Recuperação')
+} else {
+  print('Reprovado')
+}
+
+
+# 2.8 Criando funções
+par.impar <- function(num){
+  if((num %% 2) == 0){
+    return('Par')
+  }else
+    return('Ímpar')
+}
+
+# usando a função
+num = 3
+par.impar(num)
+
+# 2.9 Utilizando funções "apply"
+
+# Usando "apply" para somar os elementos de uma matriz
+?apply
+#Crianco uma matriz 3X3
+x <- seq(1:9)
+matriz <- matrix(x,ncol=3)
+matriz
+
+result1 <- apply(matriz,1,sum)  #apresentando a soma das linhas da matriz
+result1
+
+
+result2 <- apply(matriz,2,sum)  #apresentando a soma das colunas da matriz
+result2
+
+# Usando "lapply". Ela é similar a função "apply", porém é aplicada a vetores e
+#listas.
+?list
+
+numeros.p <- c(2,4,6,8,10,12)  #vetores com números pares
+numeros.i <- c(1,3,5,7,9,11) #vetores com números impares
+numeros <- list(numeros.p,numeros.i) #fazendo uma lista com os doi vetores 
+numeros
+
+?lapply  #é aplicado em vetores e listas
+lapply(numeros, mean) #calcula a média dos numeros que estão na minha lista "numeros".
+
+# Usando "sapply". Parecido com "lapplu" a diferença a forma de apresentação
+#dos resultados
+?sapply
+
+sapply(numeros, mean)
+
+
+# 2.10 CRIANDO GRÁFICOS
+?mtcars #um dataset já pré-configurado
+mtcars  #é um dataset com 11 linhas mas quero somente 3 linhas, que são:1,2,e 9
+carros <- mtcars[,c(1,2,9)]
+carros   #me mostra toda a tabela 'carros'
+
+head(carros)  #me mostra somente o cabeçalho (algumas linhas) de "carros"
+
+#Fazendo um histograma com os dados da linha 'mpg'
+hist(carros$mpg)
+
+#Criando um gráfico de dispersão com as colunas 'mpg' e 'cyl'
+plot(carros$mpg, carros$cyl) #plot requer dois parametros: escolhi 'mpg' e 'cyl'
+
+#o gráfico mostra que quanto menor o nº do cilindro 'cyl', maior é o consumo
+# do carro 'mpg'.
+
+
+#Agora vamos criar gráficos usando o pacote 'ggplot2'
+install.packages('ggplo2') #instalando o pacote
+library(ggplot2)          #chamando/carregando o pacote
+
+#para esta função são necessários 2 parâmetros: dataset e a coluna
+ggplot(carros,aes(am))+
+  geom_bar()
+
+
+
+############ UNIDADE 3: MANIPULAÇÃO DE DADOS COM R
+# União, seleção e transformação de dados
+
+# 3.1 UTILIZANDO JUNÇÕES
+#Primeiro vamos criar dois data frames. Um com o código e o preço de cada produto
+#O segundo possui o código e o nome do produto.
+df1 <- data.frame(Produto = c(1,2,3,5),
+                  Preço = c(15,10,25,10))
+head(df1)
+
+df2 <- data.frame(Produto = c(1,2,3,4),
+                  Nome = c("A","B","C","D"))
+head(df2)
+
+#Para unir estes dois data frame, devo instalar o pacote "dplyr"
+install.packages("dplyr")
+library(dplyr)
+
+#Em seguida usamos a função "left_join", que une os dados de duas tabelas com 
+#base em alguma coluna. Essa função mantem os dados da tabela da esquerda e, 
+#caso não encontre o valor, será atribuido o valor "<NA>".
+
+df3 <- left_join(df1,df2,"Produto")
+head(df3)
+
+#Usando a função "right_join", todos os dados da coluna da direita são mantidos,
+#e, quando não for encontrado um valor correspondente, o valor "NA" será atribuído.
+df4 <- right_join(df1,df2,"Produto")
+head(df4)
+
+#Unindo valores que aparecem nas duas colunas:
+df5 <- inner_join(df1,df2,"Produto")
+head(df5)
+
+# 3.2 SELECIONANDO OS DADOS
+# Função "dplyr"- um pacote que permite selecionar e manipular os data frames
+library(dplyr)  #carregando o pacote 'dplyr'
+?iris  #usaremos o conjunto de dados (dataset) iris
+head(iris)
+iris
+
+glimpse(iris) #obtendo informações do dataset
+
+# Filter - filtrando os dados - apenar versicolor
+versicolor <- filter(iris,Species == "versicolor")
+dim(versicolor)  #mostra a dimensão (tamanho), quantidade de linhas e colunas
+versicolor
+
+#Slice - selecionando algumas linhas específicas
+slice(iris, 5:10) #selecionando as linhas de 5 a 10
+
+#select - selecionando algumas colunas
+select(iris,2:4) #selecionando as colunas de 2 até 4
+
+#Removando uma coluna de alguma seleção
+#Ex. Todas as colunas exceto Sepal width
+select(iris, -Sepal.Width)
+
+#Combinando o valor de uma ou mais colunas "mutate()"
+#Ex.: Criando uma nova coluna com base em colunas existente
+iris2 <- mutate(iris, nova.coluna = Sepal.Length + Sepal.Width)
+head(iris2)
+
+iris2[,c("Sepal.Length", "Sepal.Width", "nova.coluna")] #para aperecer somente 3 colunas
+
+# Arrange - permite ordenar os dados de um data frame
+?arrange
+
+# primeiro usa-se a função "select". Entre () a ou as colunas a serem ordenadar   
+# %>% -  para adicionar mais de uma operação 
+select(iris,Sepal.Length) %>% 
+  arrange(Sepal.Length)
+
+#Agrupando os dados por uma determinada coluna - "group_by()"
+?group_by
+#Ex.: agrupando os dados por Species
+iris %>% group_by(Species) %>%
+  summarise(mean(Sepal.Length))
+
+
+# 3.3 TRANSFORMANDO OS DADOS
+library(tidyr)
+#Ex.: Vamos criar um data frame com vendas de produtos por ano
+dfDate <- data.frame(Produto=c('A','B','C','D'),
+                     A.2015=C(1,2,3,4))
+dfDate
+A.2015 <- C(1,2,3,4)                
+A.2015     
+
+# NÃO CONSEGUI RODAR ESTE DATA FRAME :( DEU ERRO
+# ...
+# ...
+# ...
+
+################################################################################
+##### MÓDULO 3: INTRODUÇÃO À MACHINE LEARNING
+##### UNIDADE 1: ALGORITMOS DE MACHINE LEARNIG
+# Ao final deste módulo, serei capaz de realizar alguns algoritmos de regressão,
+#classificação, clusterização relacionados à machine learnig. Também terei aptidão
+#para classificar as técnicas e etapas de contrução de modelo preditivo de ma-
+#chine learnig e seus principais conceitos.
+
+# <- Machine learning ou "aprendizagem de máquina" é uma representação que tem
+#como objetivo criar modelo a partir de dados históricos para generalizar deci-
+#sões.
+
+#<- Modelo - é uma representação dos relacionamentos existentes nos dados por
+#meio de uma fórmula matemática.
+
+#Estudando alguns termos:
+
+# Instâncias ou observações: São as linhas do "dataset
+
+# Variável resposta/dependente, classe, label ou target: é a variável/coluna que
+#se quer prever.
+
+# Features (recursos), atributos, dimensões ou variáveis explicativa/
+#independente - São colunas do "dataset" que podem ser utilizadas para prever
+#a variável target.
+
+# Algorítmos de machine learning - são aplicados a um conjunto de dados com o 
+#objetivo de indentificar os relacionamentos existentes e gerar um modelo a 
+#partir desses dados.
+
+#Categorias de algorítmos de machine learnig:
+# 1. Tipo de aprendizagem - supervisionada, não supervisionada e outros.
+# 2. Categorias de problemas - classificação, regressão, agrupamentos, entre outros
+
+# 1.1 ALGORITMOS DE APRENDIZAGEM SUPERVISIONADA
+
+# A predição é estimada com base na relação entre os dados de entrada (features)
+#e os dados de saída (varivel resposta). Para cada entrada é apresentado um 
+#resultado esperado.
+
+#O algoritmo é responsável por mapear uma função que descreve os padrões ocultos
+#nos dados. Para este tipo de aprendizagem, são necessários dados rotulados, que
+#saõ dados de entrada associados com resultados esperados. A função mapeada pelo
+#algoritmo é utilizada para prever novos valores quando apresentada a novos 
+#conjunto de dados.
+
+# A apresendizagem supervisionada é utilizada para resolver problemas de CLASSI-
+#FICAÇÃO e REGRESSÃO. A classificação tem como resultado uma saída categórica/
+#direta. Já a regressão tem como resultado uma saída númerica.
+
+## CLASSIFICAÇÃO
+# K-Nearest Neighbors [VIZINHOS MAIS PRÓXIMOS] - (KNN)- é uma algoritmo de clas-
+#sificação que se baseia nos vizinhos mais próximos. Quando um novo dado é apre-
+#sentado ao algoritmo, ele irá classificá-lo com base nos exemplos mais próximos
+#apresentado na fase de treinamento.
+
+# O parâmetro K representa a quantidade de vizinhos mais próximos que deve ser
+#considerado pelo algoritmo. 
+
+## REGRESSÃO LINEAR
+# Regressão linear simples estuda o relacionamento entre a variável dependente 
+#y (variável resposta) e a variável independente x (varia´vel explicativa).
+# O objetivo é prever o valor de uma variável contínua. A regressão linear assu-
+#me que existe uma relação linear entre a variável resposta e a variável expli-
+#cativa.
+
+# y = W*x+B
+# onde: W e B são parâmetros do modelo
+#        W = weigth e B = Bias (viés, tendência)
+
+
+## ÁRVORE DE DECISÃO [fluxograma] - é uma estrutura que armazena regras de deci-
+#são e possui nós, ramos e folhas.
+# Nós - representam as variáveis
+# Ramos - representam os valores possíveis de cada nó
+# Folhas - representam o valor final de um nó
+
+## 1.2 ALGORITMOS DE APRENDIZAGEM NÃO SUPERVISIONADA
+# É usado quando não temos dados rotulados, ou seja, quando não a saída esperada
+#para uma determinada entrada. Assim, o algoritmo aprende sem informações adicio-
+#nais para produzir uma saída.
+
+# São baseados em medidas de similaridade e padrões ocultos nos dados. Normal-
+#mente é utilizado para resolver problemas de AGRUPAMENTO(CLUSTERING), associação 
+#e detecção de anomalias.
+
+# Clusting - é uma atividade frequentimente utilizada para agrupar os dados que 
+#possuem características similares.
+# Um algoritmo muito conhecido para esta tarefa é o "K-means" 
+# O centro de cada "cluster" é chamado de "centroide" é terá a média dos valores
+# O objetivo deste algoritmo (K-means) - é dividir os dados em grupos com base
+#na similaridade dos dados (clusters), ou seja, temos dados que são similares 
+#dentro de um grupo, porém diferentes quando comparados com os dados de outros
+#grupos.
+
+
+## 1.3 OUTROS ALGORITMOS DE MACHINE LEARNIG
+
+############ UNIDADE 2: CONSTRUÇÃO DO MODELO PREDITIVO
+# Objetico da aprendizagem - aprender etapas envolvidas na construção do modelo
+#de machine learnig, considerando a APRENDIZAGEM SUPERVISIONADA.
+
+# 2.1 Técnicas e etapas de construção do modelo de "machine learning".
+#Dificilmente teremos os dados prontos. Por esse motivo teremos que fazer algumas
+#transformações nos dados antes de apresentá-los ao algoritmo.
+
+# Na fase de pré-processamento, os dados são dividos em dados de treino e dados 
+#de teste. 
+# Dados de treino - são apresentados ao algoritmo para que ele aprenda o rela-
+#cionamento entre entre as variáveis e crie o modelo.
+# Dados de teste - são utilizados para avaliar o quanto o algoritmo aprendeu.
+
+# Ao apresentar os dados de teste ao modelo, as previsões são realizadas com
+#base no que foi aprendido na fase de treino. Essas previsões são comparadas 
+#com as respostas esperadas para calcular o desempenho do modelo. Um vez criado 
+#e validado, o modelo pode ser utilizado para realizar novas previsões quando
+#for apresentado a novos dados.
+
+######### ETAPAS DA CONSTRUÇÃO DO MODELO
+# 1.PRÉ-PROCESSAMENTO DOS DADOS - melhorar a quanlidade dos dados que serão 
+#apresentados ao algoritmo.
+
+# Técnicas utilizadas para o pré-processamento dos dados:
+
+# Feature selection [seleção de recursos] - seleciona os atributos mais 
+#relevantes que serão utilizados para treinar o modelo.
+
+# Feature engineering - é a arte de criar variáveis a partir de um conjunto de
+#dados para melhorar a performance do modelo.
+
+# Normalização - Um "dataset" pode conter variáveis em diferentes escalas e,
+#assim sendo, recomenda-se padronizar esses dados para uma mesma escala. Para
+#isso, usamos a técnica da normalização.
+
+# Redução de dimencionamento - é utilizada quando se tem conjunto de dados com
+#muitas dimensões (colunas), o que acaba prejudicando a capacidade de generali-
+#zação de alguns algoritmos.
+
+# Divisão dos dados em treino e teste - em aprendizagem supervisionada, deve-se
+#dividir os dados em dois "dataset": treino e teste.
+#os dados de treino - são criados para criar modelos 
+#os dados de teste - são criados para verificar a performance do modelo.
+# Essa divisão deve ser feita de forma aleatória
+
+# 2. APRENDIZAGEM - CONSTRUÇÃO DO MODELO
+# O modelo é criado a partir dos dados que são apresentados aos algoritmos
+
+# Técnicas utilizadas para aprendizagem - construção do modelo
+# 2.1 Cross-validation - utilizado para treinar e validar um modelo com o mesmo
+#conjunto de dados, dividindo-os em partições.
+
+# 2.2 Métricas de desempenho - Existem diversas métricas. Ex.: Acurácia.
+
+# 2.3 Otimização de hiperparâmetros - cada algoritmo possui um conjunto de hiper-
+#parÂmetros que podem ser alterados. Essa técnica busca encontrar a combinação 
+#certa de valores com o objetivo de melhorar a performance do modelo.
+
+
+# 3. AVALIAÇÃO DO MODELO
+# Os dados teste são apresentados ao modelo e,com isso, são gerados previsões.
+# Essas previsões são comparadas com os resultados desejados para avaliar o de-
+#sempenho do modelo.
+
+# 4. PREDIÇÃO
+# Apresentando um bom resultado, poderá ser utilizado para receber novos dados e
+#realizar previsões.
+
+
+### FAZER EXERCÍCIO AVALIATIVO 3 - realizado
+
+
+
+
+
+
+################################################################################
+##### MODELO 4: ANÁLISE DOS DADOS NA PRÁTICA
+##### UNIDADE 1: APLICAÇÃO DA LINGUAGEM R NA ANÁLISE DE DADOS
+
+# Objetivo da aprendizagem - compreender as etapas do processo de análise de 
+#dados na prática. Serão abordados dois exemplos: 
+# 1ºexemplo - análise de dados abertos de diárias e passagens;
+# 2ºexemplo - contrução de uma modelo preditivo para a prevenção da ocorrência 
+#de diates;
+
+# 1ºexemplo - analisando dados abertos de viagens a serviço
+# 1_Definição do problema: 
+# Qual é o valor gasto por Orgão? 
+# Qual é o valor gasto por cidade?
+# Qual é a quantidade de viagens por mês?
+
+# Obtenção dos dados
+# No portal da transparência, mas o curso já tinha o planilha no excell e baixei
+
+# 2_Carregando os dados
+?read.csv
+
+viagens <- read.csv(
+  file = "D:/Desktop/Certificados_2020e21/Análise de dados em ambiente R/2019_Viagem.csv",
+  sep = ';',   #o parâmetro 'sep' representa o separador
+  dec = ','    #o parâmetro 'dec' a separação das casas decimais
+)
+
+head(viagens)
+
+View(viagens)  #outra maneira de ver os dados, possibilitando verificar se oS
+                #dados foram carregados corretamente.
+
+dim(viagens)   #dá para verificar o nº de observações e colunas
+
+# Para executar algumas informações do 'dataset', como valor mínimo, máximo, e
+#média das viagens e serviços, utilizamos a função 'summary()' 
+?summary
+
+summary(viagens)
+
+summary(viagens$Valor.passagens)
+
+#Para verificar os tipos dos dados de cada coluna
+install.packages('dplyr')
+library(dplyr)
+
+glimpse(viagens)
+
+# 3_Transformação dos dados obtidos
+# Exemplo: mudando a formação de datas
+
+?as.Date
+viagens$data.inicio <- as.Date(viagens$Período...Data.de.início,
+                               "%d/%m/%y")
+
+glimpse(viagens)
+
+# Formatando o campo data para trabalhar somento com o mês e o ano.
+?format
+
+viagens$data.inicio.formatada <- format(viagens$data.inicio, "%Y-%m")
+viagens$data.inicio.formatada
+
+# ---> outros formatos de datas: https://www.statmethods.net/input/dates.html
+
+# 4_Explorando os dados
+hist(viagens$Valor.passagens)
+
+#valores min, max, média...da coluna valor
+summary(viagens$Valor.passagens)
+
+#visualizando os valores em um boxplot
+boxplot(viagens$Valor.passagens)
+
+#calculando o desvio padrão
+sd(viagens$Valor.passagens)
+
+#outras funções
+?is.na  #verifica se exitem campos com valores não preenchidos
+?colSums #contabiliza a quantidade de campos não preenchidos por coluna
+
+colSums(is.na(viagens))
+
+#verificando a quantidade de ocorrência na coluna "situação"
+str(viagens$Situação)
+
+#verificando a quantidade de ocorrência para cada classe 
+table(viagens$Situação)
+
+#obtendo o valor em percentual
+prop.table(table(viagens$Situação))*100
+
+
+
+
+# 5_Visualização dos resultados
+# Respondendo as perguntas do início da unidade:
+    # Qual é o valor gasto por Orgão? 
+    # Qual é o valor gasto por cidade?
+    # Qual é a quantidade de viagens por mês?
+
+    #1. Quais órgãos estão gastando mais com passagens aéreas?
+# criando um dara frame com os 15 órgãos de mais gastam
+p1 <- viagens %>%
+    group_by(Nome.do.órgão.superior) %>%   #agrupando conjunto de dados por nome
+  summarise(n = sum(Valor.passagens)) %>%   #somar o valor gasto em passagens
+  arrange(desc(n)) %>%              #ordenar o resultado por ordem decrescente
+  top_n(15)   #filtrar os 15 primeiros órgãos que mais gastam
+p1
+
+names(p1) <- c("orgao", "valor")  #caso queira renomear as colunas
+p1
+
+# Após a consolidação dos dados, vamos criar um gráfico com a função 'ggplot()'
+ggplot(p1,aes(x= reorder(orgao,valor), y= valor))+
+         geom_bar(stat = "identity")+
+         coord_flip()+
+         labs()
+
+
+      # 2. Qual o valor gasto por cidade?
+
+?group_by
+install.packages("dplyr")
+library(dplyr)
+
+p2 <- viagens %>%
+  group_by(Destinos) %>%   #agrupando conjunto de dados por nome
+  summarise(n = sum(Valor.passagens)) %>%   #somar o valor gasto em passagens
+  arrange(desc(n)) %>%              #ordenar o resultado por ordem decrescente
+  top_n(15)   #filtrar os 15 primeiros órgãos que mais gastam
+
+names(p2) <- c("destino", "valor")  #caso queira renomear as colunas
+p2
+
+# Criando o gráfico
+?ggplot
+library(ggplot2)
+
+ggplot(p2,aes (x= reorder (destino,valor), y=valor))+
+  geom_bar(stat = "identity",fill = "#0ba791")+
+  geom_text(aes(label=valor), vjust=0.3, size=3)+
+  coord_flip()+
+  labs(x="valor", y="Destino")
+
+          # 3_Qual é a quantidade de viagens por mês?
+p3 <- viagens %>%
+  group_by(data.inicio.formatada) %>%
+  summarise(qtd=n_distinct(Identificador.do.processo.de.viagem))
+
+head(p3)
+
+#Criando gráfico
+ggplot(p3,aes(x=data.inicio.formatada, y=qtd, group=1))+
+  geom_line()+
+  geom_point()
+
+
+
+########### OUTRA FORMA DE APRESENTAR OS DADOS ALÉM DE TABELAS É GRÁFICOS
+########### R Markdown - transforma as análises em documentos, relatórios e
+#apresentações 
+
+install.packages("rmarkdown")
+install.packages("tinytex")
+
+
+        ##### UNIDADE 2: APLICAÇÃO DA LINGUAGEM R NA ANÁLISE DE DADOS
+  ## 1.1 PREVENDO A OCORRÊNCIA DE DIABETES
+#Construindo um modelo de machine learning
+
+# Etapas para a construção de um modelo preditivo:
+# 1_Definição do problema: Identificar pacientes com alta probabilidade de se-
+#rem diagnosticados com diabetes, tendo, no mínimo, 75% de acurácia.
+
+# 2_Obtenção dos dados
+#Carregando os dados no R:
+diabetes <- read.csv(
+  file = "D:/Desktop/Certificados_2020e21/Análise de dados em ambiente R/diabetes.csv"
+)
+
+head(diabetes)
+
+# 3_Preparação dos dados
+?str  #é a estrutura do data.frame que permite verificar o tipo de cada coluna 
+      #ou variável
+
+str(diabetes)
+# no console aparece a linha "Outcome". O '1' representa as pessoas que desenvol-
+#veram diabetes, e o '0' respresenta as pesssoas que NÃO desenvolveram.
+
+# É comum encontrarmos alguns campos não preenchidos. Se isso ocorrer com seus
+#dados, você deverá aplicar a função "is.na()".
+ 
+colSums(is.na(diabetes)) #Não foi encontrado campos não preenchidos.
+
+#Obtendo mais informações dos dados utilizando a função"summary()".
+summary(diabetes$Insulin)  #me dá os dados estatística da coluna insulina
+boxplot(diabetes$Insulin) #me monstra o gráfico da coluna insulina
+
+
+# 4_Análise Exploratória
+#PERMIte a extração de informações relevantes sobre um conjunto de dados
+
+#Inserir um data frame na função 'boxplot()'
+boxplot(diabetes)
+
+#Fazendo o histograma de 3 variáveis (3 colunas): Pregnacies, Age e BMI
+hist(diabetes$Pregnancies)
+hist(diabetes$Age)
+hist(diabetes$BMI)
+
+
+#Na coluna "Insulin" há valores muito distantes da média, como visto no boxplot
+
+boxplot(diabetes$Insulin)
+
+#Então vamos remover estes valores. Para isso vamos utilizar a função 'filter()'.
+library(dplyr)  #chamando o pacote que tem a função 'filter()'.
+
+diabetes2 <- diabetes %>%
+  filter(Insulin <= 250)  #filtrando a Insulin no valor <= 250.
+
+boxplot(diabetes2$Insulin)
+
+#Com os dados tranformados vamos aplicar as funções 'boxplot()' e 'summary()".
+boxplot(diabetes2)
+summary(diabetes2$Insulin)
+
+
+# 5_Construção do modelo
+#Dividindo os dados em treino e teste
+library(caTools)
+
+set.seed(123)
+index = sample.split(diabetes2$Pregnancies, SplitRatio = .70)
+
+index
+
+train = subset(diabetes2, index == TRUE)
+test = subset(diabetes2, index == FALSE)
+
+dim(diabetes2)
+dim(train)
+dim(test)
+
+#fazendo o modelo
+
+library(caret)
+
+?caret::train
+
+modelo = train(
+  Outcome ~., data = train, method = "knn")
+  
+  #################    DÁ ERRO ################################################
+
+modelo$results
+#... deu errado
+#...
+#...
+
+ 
+# Modelo4 - para o algoritmo svmRadialSigma
+??svmRadialSigma
+
+set.seed(100)
+modelo4 <- train (
+  Outcome ~., data = train, method = "svmRadialSigma"
+  ,preProcess=c("center")
+)
+
+modelo4$results
+modelo4$bestTune
+
+
+#### NÃO CONSEGUI FINALIZAR O MODELO PREDITIVO
+
+
